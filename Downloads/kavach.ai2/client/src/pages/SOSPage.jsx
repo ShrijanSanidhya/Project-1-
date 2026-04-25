@@ -4,9 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 const API = 'http://localhost:3001';
 const STEP = { IDLE:0, LISTENING:1, ANALYZING:2, FOLLOWUP:3, DONE:4 };
 const C = {
-  bg:'#020813', bg1:'#061022', bg2:'#0a162e', bg3:'#0f2040',
-  border:'rgba(200,20,20,0.3)', red:'#cc0000', red2:'#8b0000',
-  text:'#e2e8f0', muted:'#64748b', dim:'#475569',
+  bg:'#141414', bg1:'#1c1c1c', bg2:'#242424', bg3:'#2e2e2e',
+  border:'#333333', red:'#d32f2f', red2:'#b71c1c',
+  text:'#f5f5f5', muted:'#9e9e9e', dim:'#616161',
 };
 const speak = (t) => { if (!window.speechSynthesis) return; window.speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='hi-IN'; u.rate=0.92; window.speechSynthesis.speak(u); };
 const toB64 = (f) => new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(f);});
@@ -101,9 +101,8 @@ export default function SOSPage() {
       {/* ── NAV ── */}
       <nav style={{ position:'relative', zIndex:10, display:'flex', justifyContent:'space-between', alignItems:'center', padding:'16px 32px', borderBottom:'1px solid rgba(180,30,30,0.25)', backdropFilter:'blur(12px)', background:'rgba(8,12,20,0.85)', boxShadow:'0 1px 20px rgba(0,0,0,0.4)' }}>
         <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-          <svg width={26} height={26} viewBox="0 0 24 24">
-            <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor={C.cyan}/><stop offset="100%" stopColor={C.red}/></linearGradient></defs>
-            <path fill="url(#sg)" d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1z"/>
+          <svg width={26} height={26} viewBox="0 0 24 24" fill={C.red}>
+            <path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1z"/>
           </svg>
           <span style={{ fontWeight:800, fontSize:16, letterSpacing:'0.12em', color:C.text }}>KAVACH<span style={{ color:C.red }}>.AI</span></span>
         </div>
@@ -129,8 +128,8 @@ export default function SOSPage() {
           {(step===STEP.IDLE || step===STEP.LISTENING) && (
             <>
               <div style={{ textAlign:'center', marginBottom:40 }}>
-                <div style={{ fontSize:10, fontWeight:700, letterSpacing:'0.22em', marginBottom:16, color:C.red }}>
-                  KAVACH EMERGENCY DISPATCH SYSTEM
+                <div style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:6, fontSize:12, fontWeight:600, color:C.muted, marginBottom:16 }}>
+                  Kavach <svg width={12} height={12} viewBox="0 0 24 24" fill={C.red}><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1z"/></svg> Emergency Dispatch System
                 </div>
                 <h1 style={{ fontSize:54, fontWeight:900, lineHeight:1.05, marginBottom:14, color: C.text }}>
                   Need Help<span style={{ color: C.red }}>?</span>
@@ -138,36 +137,30 @@ export default function SOSPage() {
                 <p style={{ color:C.muted, fontSize:15, lineHeight:1.65 }}>Speak your emergency. Our AI triage agent<br/>dispatches help and stays with you.</p>
               </div>
 
-              {/* MIC */}
               <div style={{ display:'flex', justifyContent:'center', marginBottom:32 }}>
                 <div style={{ position:'relative' }}>
                   {listening && (<>
                     <span style={{ position:'absolute', inset:-18, borderRadius:'50%', border:`2px solid ${C.red}`, opacity:0.6, animation:'ripple 1.6s ease-out infinite' }} />
                     <span style={{ position:'absolute', inset:-36, borderRadius:'50%', border:`1px solid ${C.red}`, opacity:0.3, animation:'ripple 1.6s ease-out 0.5s infinite' }} />
-                    <span style={{ position:'absolute', inset:-54, borderRadius:'50%', border:`1px solid rgba(196,136,42,0.25)`, animation:'ripple 1.6s ease-out 0.9s infinite' }} />
                   </>)}
                   <button onMouseDown={startMic} onMouseUp={stopMic} onTouchStart={startMic} onTouchEnd={stopMic}
                     style={{ width:120, height:120, borderRadius:'50%',
-                      background: listening
-                        ? `radial-gradient(circle at 40% 40%,rgba(200,30,30,0.9),rgba(120,0,0,1))`
-                        : `radial-gradient(circle at 40% 40%,${C.red},${C.red2})`,
-                      border: `2px solid ${listening ? '#ff6666' : C.red2}`,
-                      boxShadow: listening
-                        ? `0 0 40px rgba(200,30,30,0.6),0 0 80px rgba(120,0,0,0.4)`
-                        : `0 0 20px rgba(120,0,0,0.4)`,
-                      cursor:'pointer', transition:'all 0.25s', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:6 }}>
-                    <svg width={34} height={34} viewBox="0 0 24 24" fill="none" stroke={listening ? '#ffffff' : C.text} strokeWidth={1.8}>
+                      background: listening ? '#1a1a1a' : '#111111',
+                      border: `1px solid ${C.border}`,
+                      boxShadow: listening ? `0 0 30px rgba(211,47,47,0.4)` : `0 0 40px rgba(211,47,47,0.15)`,
+                      cursor:'pointer', transition:'all 0.2s', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:6 }}>
+                    <svg width={34} height={34} viewBox="0 0 24 24" fill="none" stroke={listening ? '#ffffff' : C.red} strokeWidth={1.8}>
                       <rect x={9} y={2} width={6} height={13} rx={3}/><path d="M5 10a7 7 0 0 0 14 0"/><line x1={12} y1={19} x2={12} y2={22}/><line x1={8} y1={22} x2={16} y2={22}/>
                     </svg>
-                    <span style={{ fontSize:9, letterSpacing:'0.14em', fontWeight:700, color: listening ? '#ffffff' : C.text }}>{listening ? 'RELEASE' : 'HOLD'}</span>
+                    <span style={{ fontSize:9, letterSpacing:'0.14em', fontWeight:700, color: listening ? '#ffffff' : C.red }}>{listening ? 'RELEASE' : 'HOLD'}</span>
                   </button>
                 </div>
               </div>
 
               {/* INPUT CARD */}
-              <div style={{ background:'linear-gradient(160deg,rgba(14,21,34,0.97),rgba(26,12,12,0.95))', border:`1px solid ${C.border}`, borderRadius:12, overflow:'hidden', backdropFilter:'blur(14px)', boxShadow:`0 20px 60px rgba(0,0,0,0.6),inset 0 1px 0 rgba(196,24,24,0.12)` }}>
+              <div style={{ background:C.bg1, border:`1px solid ${C.border}`, borderRadius:12, overflow:'hidden' }}>
                 <div style={{ padding:'18px 20px 10px' }}>
-                  <label style={{ display:'block', fontSize:10, color:C.red, letterSpacing:'0.16em', marginBottom:10, fontWeight:700 }}>DESCRIBE YOUR EMERGENCY</label>
+                  <label style={{ display:'block', fontSize:10, color:C.muted, letterSpacing:'0.16em', marginBottom:10, fontWeight:700 }}>DESCRIBE YOUR EMERGENCY</label>
                   <textarea value={text} onChange={e=>setText(e.target.value)}
                     onKeyDown={e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); submit(text); } }}
                     placeholder="e.g. Aag lag gayi, Karol Bagh, 5 log faṃse hain…" rows={3}
@@ -195,8 +188,8 @@ export default function SOSPage() {
                     {media ? 'Change' : 'Attach Photo/Video'}
                   </button>
                   <button onClick={()=>submit(text)} disabled={!hasInput}
-                    style={{ background: hasInput ? `linear-gradient(135deg,${C.red},${C.red2})` : `rgba(100,10,10,0.15)`, color: hasInput ? '#fff' : C.dim, border:'none', borderRadius:8, padding:'10px 28px', fontWeight:800, fontSize:13, letterSpacing:'0.1em', cursor: hasInput ? 'pointer' : 'not-allowed', boxShadow: hasInput ? `0 4px 22px rgba(196,24,24,0.45)` : 'none', transition:'all 0.2s' }}>
-                    SUBMIT →
+                    style={{ background: hasInput ? C.red : C.bg3, color: hasInput ? '#fff' : C.dim, border:'none', borderRadius:8, padding:'10px 28px', fontWeight:800, fontSize:13, letterSpacing:'0.1em', cursor: hasInput ? 'pointer' : 'not-allowed', transition:'all 0.2s' }}>
+                    SUBMIT
                   </button>
                 </div>
               </div>

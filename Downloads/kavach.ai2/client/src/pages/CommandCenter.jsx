@@ -6,11 +6,11 @@ import 'leaflet/dist/leaflet.css';
 const API = 'http://localhost:3001';
 
 const C = {
-  bg:'#020813', bg1:'#061022', bg2:'#0a162e', bg3:'#0f2040',
-  border:'rgba(200,20,20,0.3)', red:'#cc0000', red2:'#8b0000',
-  text:'#e2e8f0', muted:'#64748b', dim:'#475569',
-  amber:'#c4882a', orange:'#c45010', gold:'#b87c18', green:'#2a7a40', greenBright:'#3ab054',
-  cyan:'#3a82a6' // Subdued blue for some accents
+  bg:'#141414', bg1:'#1c1c1c', bg2:'#242424', bg3:'#2e2e2e',
+  border:'#333333', red:'#d32f2f', red2:'#b71c1c',
+  text:'#f5f5f5', muted:'#9e9e9e', dim:'#616161',
+  amber:'#f57c00', orange:'#e64a19', gold:'#fbc02d', green:'#388e3c', greenBright:'#4caf50',
+  cyan:'#1976d2'
 };
 
 const sevColor = (s) => s==='HIGH'?C.red:s==='MEDIUM'?C.orange:C.amber;
@@ -52,13 +52,13 @@ export default function CommandCenter() {
 
   return (
     <div style={{height:'100vh',display:'flex',flexDirection:'column',backgroundColor:C.bg,color:C.text,overflow:'hidden',
-      background:chaos?`radial-gradient(ellipse 80% 50% at 50% 0%,rgba(196,24,24,0.18),${C.bg})`:`linear-gradient(160deg,#080c14 0%,#0e1522 100%)`}}>
+      background:chaos?`radial-gradient(ellipse 80% 50% at 50% 0%,rgba(211,47,47,0.1),${C.bg})`:C.bg}}>
 
       {/* HEADER */}
-      <div style={{height:54,backgroundColor:'rgba(10,22,40,0.95)',borderBottom:`1px solid ${C.border}`,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 16px',flexShrink:0,backdropFilter:'blur(12px)'}}>
+      <div style={{height:54,backgroundColor:C.bg1,borderBottom:`1px solid ${C.border}`,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 16px',flexShrink:0}}>
 
         <Link to="/" style={{display:'flex',alignItems:'center',gap:9,textDecoration:'none'}}>
-          <svg width={24} height={24} viewBox="0 0 24 24"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor={C.cyan}/><stop offset="100%" stopColor={C.red}/></linearGradient></defs><path fill="url(#lg)" d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1z"/></svg>
+          <svg width={24} height={24} viewBox="0 0 24 24" fill={C.red}><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1z"/></svg>
           <span style={{fontWeight:800,fontSize:14,letterSpacing:'0.12em',color:C.text}}>KAVACH<span style={{color:C.red}}>.AI</span></span>
           <span style={{color:C.muted,fontSize:12,marginLeft:4}}>/ Command Center</span>
         </Link>
@@ -75,7 +75,7 @@ export default function CommandCenter() {
           <Pill label="LOW"  n={lowN}  color={C.amber}/>
           <span style={{color:C.muted,fontSize:12,fontFamily:'JetBrains Mono,monospace'}}>{clock}</span>
           <div style={{width:1,height:26,background:C.border,margin:'0 4px'}}/>
-          <button onClick={triggerChaos} style={{background:chaos?`linear-gradient(135deg,${C.red},${C.red2})`:`linear-gradient(135deg,rgba(180,30,30,0.15),rgba(100,10,10,0.2))`,color:C.red,border:`1px solid ${C.red}`,padding:'5px 12px',borderRadius:6,fontWeight:700,fontSize:11,cursor:'pointer',letterSpacing:'0.06em',boxShadow:`0 0 14px rgba(196,24,24,0.25)`,transition:'all 0.15s'}}>
+          <button onClick={triggerChaos} style={{background:chaos?C.red:'transparent',color:chaos?'#fff':C.red,border:`1px solid ${C.red}`,padding:'5px 12px',borderRadius:6,fontWeight:700,fontSize:11,cursor:'pointer',letterSpacing:'0.06em',transition:'all 0.15s'}}>
             CHAOS MODE
           </button>
           <div style={{display:'flex',alignItems:'center',gap:4,fontSize:11,color:connected?C.greenBright:C.muted}}>
@@ -155,9 +155,9 @@ export default function CommandCenter() {
 
       <style>{`
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-        .leaflet-container{background:#080c14!important}
-        .leaflet-popup-content-wrapper{background:C.bg2;color:#e8e0d0;border:1px solid rgba(180,30,30,0.25)}
-        .leaflet-popup-tip{background:C.bg2}
+        .leaflet-container{background:#141414!important}
+        .leaflet-popup-content-wrapper{background:${C.bg2};color:#f5f5f5;border:1px solid #333333}
+        .leaflet-popup-tip{background:${C.bg2}}
       `}</style>
     </div>
   );

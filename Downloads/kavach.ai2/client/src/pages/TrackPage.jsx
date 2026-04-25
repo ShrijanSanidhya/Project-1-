@@ -6,9 +6,11 @@ import 'leaflet/dist/leaflet.css';
 const API = 'http://localhost:3001';
 
 const C = {
-  bg:'#020813', bg1:'#061022', bg2:'#0a162e', bg3:'#0f2040',
-  border:'rgba(200,20,20,0.3)', red:'#cc0000', red2:'#8b0000',
-  text:'#e2e8f0', muted:'#64748b', dim:'#475569',
+  bg:'#141414', bg1:'#1c1c1c', bg2:'#242424', bg3:'#2e2e2e',
+  border:'#333333', red:'#d32f2f', red2:'#b71c1c',
+  text:'#f5f5f5', muted:'#9e9e9e', dim:'#616161',
+  amber:'#f57c00', orange:'#e64a19', gold:'#fbc02d', green:'#388e3c', greenBright:'#4caf50',
+  cyan:'#1976d2'
 };
 
 const FIRE_DECISIONS = [
@@ -105,16 +107,12 @@ export default function TrackPage() {
 
   return (
     <div style={{ minHeight:'100vh', background:C.bg, color:C.text, display:'flex', flexDirection:'column', position:'relative', overflow:'hidden' }}>
-      {/* bg blobs */}
-      <div style={{ position:'fixed', top:'-15%', left:'-10%', width:'50%', height:'60%', borderRadius:'50%', background:'radial-gradient(circle,rgba(30,50,120,0.18),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
-      <div style={{ position:'fixed', top:'10%', right:'-5%', width:'35%', height:'45%', borderRadius:'50%', background:'radial-gradient(circle,rgba(180,20,20,0.14),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
-      <div style={{ position:'fixed', bottom:'0%', right:'5%', width:'30%', height:'40%', borderRadius:'50%', background:'radial-gradient(circle,rgba(140,20,20,0.1),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
 
       {/* NAV */}
-      <nav style={{ position:'relative', zIndex:10, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'14px 28px', borderBottom:`1px solid ${C.border}`, background:'rgba(8,12,20,0.88)', backdropFilter:'blur(12px)' }}>
+      <nav style={{ position:'relative', zIndex:10, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'14px 28px', borderBottom:`1px solid ${C.border}`, background:C.bg1 }}>
         <div style={{ display:'flex', alignItems:'center', gap:16 }}>
           <Link to="/" style={{ display:'flex', alignItems:'center', gap:8, textDecoration:'none' }}>
-            <svg width={22} height={22} viewBox="0 0 24 24"><defs><linearGradient id="ng" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor={C.red}/><stop offset="100%" stopColor={C.red}/></linearGradient></defs><path fill="url(#ng)" d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1z"/></svg>
+            <svg width={22} height={22} viewBox="0 0 24 24" fill={C.red}><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1z"/></svg>
             <span style={{ fontWeight:800, fontSize:14, letterSpacing:'0.1em', color:C.text }}>KAVACH<span style={{ color:C.red }}>.AI</span></span>
           </Link>
           <span style={{ color:C.muted, fontSize:12 }}>/ INCIDENT TRACKER</span>
@@ -132,7 +130,7 @@ export default function TrackPage() {
         <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
 
           {/* Incident Header */}
-          <div style={{ background:'linear-gradient(160deg,rgba(14,21,34,0.97),rgba(26,12,12,0.95))', border:`1px solid ${C.border}`, borderRadius:12, padding:'18px 20px', boxShadow:`0 0 40px rgba(196,24,24,0.08)` }}>
+          <div style={{ background:C.bg1, border:`1px solid ${C.border}`, borderRadius:12, padding:'18px 20px', boxShadow:`0 0 20px rgba(0,0,0,0.3)` }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:14 }}>
               <div>
                 <div style={{ fontSize:9, color:C.red, letterSpacing:'0.16em', fontWeight:700, marginBottom:4 }}>ALERT ID</div>
@@ -166,7 +164,7 @@ export default function TrackPage() {
           </div>
 
           {/* AI Confidence */}
-          <div style={{ background:'linear-gradient(160deg,rgba(14,21,34,0.97),rgba(26,12,12,0.95))', border:`1px solid ${C.border}`, borderRadius:12, padding:'16px 20px' }}>
+          <div style={{ background:C.bg1, border:`1px solid ${C.border}`, borderRadius:12, padding:'16px 20px' }}>
             <div style={{ fontSize:9, color:C.red, letterSpacing:'0.16em', fontWeight:700, marginBottom:12 }}>AI TRIAGE CONFIDENCE</div>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:8 }}>
               <span style={{ fontSize:13, color:C.muted }}>Accuracy Score</span>
@@ -183,7 +181,7 @@ export default function TrackPage() {
           </div>
 
           {/* Live AI ticker */}
-          <div style={{ background:'linear-gradient(160deg,rgba(26,12,12,0.9),rgba(14,21,34,0.95))', border:`1px solid ${C.border}`, borderRadius:12, padding:'14px 18px', display:'flex', alignItems:'center', gap:12 }}>
+          <div style={{ background:C.bg2, border:`1px solid ${C.border}`, borderRadius:12, padding:'14px 18px', display:'flex', alignItems:'center', gap:12 }}>
             <div style={{ width:8, height:8, borderRadius:'50%', background:C.red, boxShadow:`0 0 8px ${C.red}`, animation:'pulse 1.2s infinite', flexShrink:0 }} />
             <div>
               <div style={{ fontSize:9, color:C.red, letterSpacing:'0.12em', fontWeight:700, marginBottom:3 }}>LIVE AI ANALYSIS</div>
@@ -196,7 +194,7 @@ export default function TrackPage() {
         <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
 
           {/* AI Decision Engine */}
-          <div style={{ background:'linear-gradient(160deg,rgba(14,21,34,0.97),rgba(26,12,12,0.95))', border:`1px solid ${C.border}`, borderRadius:12, padding:'16px 20px' }}>
+          <div style={{ background:C.bg1, border:`1px solid ${C.border}`, borderRadius:12, padding:'16px 20px' }}>
             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:14 }}>
               <div style={{ width:8, height:8, borderRadius:'50%', background:C.red, animation:'pulse 1.2s infinite', boxShadow:`0 0 6px ${C.red}` }} />
               <span style={{ fontSize:9, color:C.red, letterSpacing:'0.16em', fontWeight:700 }}>AI DECISION ENGINE</span>
@@ -229,7 +227,7 @@ export default function TrackPage() {
 
           {/* ETA Panel */}
           {incident?.assignedResource && (
-            <div style={{ background:`linear-gradient(135deg,${C.red2},rgba(14,21,34,0.97))`, border:`1px solid rgba(196,24,24,0.4)`, borderRadius:12, padding:'16px 20px', textAlign:'center', boxShadow:`0 0 30px rgba(196,24,24,0.15)` }}>
+            <div style={{ background:C.bg2, border:`1px solid ${C.border}`, borderRadius:12, padding:'16px 20px', textAlign:'center', boxShadow:`0 0 20px rgba(0,0,0,0.3)` }}>
               <div style={{ fontSize:9, color:C.red, letterSpacing:'0.16em', fontWeight:700, marginBottom:6 }}>UNIT DISPATCHED</div>
               <div style={{ fontSize:28, fontWeight:900, color:C.text, marginBottom:4 }}>{incident.assignedResource}</div>
               <div style={{ fontSize:13, color:C.muted, marginBottom:10 }}>Estimated Arrival</div>
@@ -246,7 +244,7 @@ export default function TrackPage() {
         @keyframes pulse  { 0%,100%{opacity:1} 50%{opacity:0.3} }
         @keyframes blink  { 0%,100%{opacity:1} 50%{opacity:0.4} }
         @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
-        .leaflet-container { background:#080c14 !important; }
+        .leaflet-container { background:#141414 !important; }
         .leaflet-control-zoom { display:none; }
       `}</style>
     </div>
