@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 const API = 'http://localhost:3001';
 const STEP = { IDLE:0, LISTENING:1, ANALYZING:2, FOLLOWUP:3, DONE:4 };
 const C = {
-  bg:'#030a14', bg1:'#0a1628', bg2:'#0f1f38', bg3:'#162840',
-  border:'rgba(0,200,255,0.14)', cyan:'#00c8ff', red:'#ff2d2d',
-  orange:'#ff6b2d', gold:'#ffcc00', green:'#00ff88', purple:'#a78bfa',
-  text:'#e2f0ff', muted:'#4a7a9b',
+  bg:'#080c14', bg1:'#0e1522', bg2:'#131d30', bg3:'#1a253c',
+  border:'rgba(180,30,30,0.2)', red:'#c41818', red2:'#8b0f0f',
+  amber:'#c4882a', amberDim:'#7a5010',
+  orange:'#c45010', gold:'#b87c18', green:'#2a7a40',
+  text:'#e8e0d0', muted:'#7a6860', dim:'#4a3830',
 };
 const speak = (t) => { if (!window.speechSynthesis) return; window.speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='hi-IN'; u.rate=0.92; window.speechSynthesis.speak(u); };
 const toB64 = (f) => new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(f);});
@@ -89,34 +90,30 @@ export default function SOSPage() {
     <div style={{ minHeight:'100vh', background:C.bg, display:'flex', flexDirection:'column', color:C.text, position:'relative', overflow:'hidden' }}>
 
       {/* ── Ambient colour blobs ── */}
-      <div style={{ position:'fixed', top:'-10%', left:'-5%', width:'45%', height:'55%', borderRadius:'50%', background:'radial-gradient(circle,rgba(0,120,255,0.13),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
-      <div style={{ position:'fixed', top:'8%', right:'-8%', width:'40%', height:'50%', borderRadius:'50%', background:'radial-gradient(circle,rgba(130,0,255,0.1),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
-      <div style={{ position:'fixed', bottom:'5%', left:'8%', width:'35%', height:'40%', borderRadius:'50%', background:'radial-gradient(circle,rgba(255,50,100,0.07),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
-      <div style={{ position:'fixed', top:'-10%', left:'-5%', width:'45%', height:'55%', borderRadius:'50%', background:'radial-gradient(circle,rgba(255,50,50,0.15),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
-      <div style={{ position:'fixed', top:'8%', right:'-8%', width:'40%', height:'50%', borderRadius:'50%', background:'radial-gradient(circle,rgba(255,30,80,0.15),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
-      <div style={{ position:'fixed', bottom:'5%', left:'8%', width:'35%', height:'40%', borderRadius:'50%', background:'radial-gradient(circle,rgba(255,50,100,0.15),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
-      <div style={{ position:'fixed', bottom:'20%', right:'5%', width:'38%', height:'45%', borderRadius:'50%', background:'radial-gradient(circle,rgba(220,30,30,0.25),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
-      <div style={{ position:'fixed', top:'40%', right:'20%', width:'20%', height:'25%', borderRadius:'50%', background:'radial-gradient(circle,rgba(200,0,0,0.15),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
+      <div style={{ position:'fixed', top:'-15%', left:'-10%', width:'50%', height:'60%', borderRadius:'50%', background:'radial-gradient(circle,rgba(30,50,120,0.18),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
+      <div style={{ position:'fixed', top:'10%', right:'-5%', width:'35%', height:'45%', borderRadius:'50%', background:'radial-gradient(circle,rgba(180,20,20,0.14),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
+      <div style={{ position:'fixed', bottom:'0%', left:'5%', width:'40%', height:'45%', borderRadius:'50%', background:'radial-gradient(circle,rgba(150,15,15,0.12),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
+      <div style={{ position:'fixed', bottom:'25%', right:'10%', width:'28%', height:'32%', borderRadius:'50%', background:'radial-gradient(circle,rgba(160,100,0,0.08),transparent 70%)', pointerEvents:'none', zIndex:0 }} />
 
       <input ref={fileRef} type="file" accept="image/*,video/*" style={{ display:'none' }} onChange={onFile} />
 
       {/* ── NAV ── */}
-      <nav style={{ position:'relative', zIndex:10, display:'flex', justifyContent:'space-between', alignItems:'center', padding:'16px 32px', borderBottom:`1px solid rgba(200,30,30,0.2)`, backdropFilter:'blur(12px)', background:'rgba(3,10,20,0.7)', boxShadow:'0 1px 0 rgba(220,30,30,0.08)' }}>
+      <nav style={{ position:'relative', zIndex:10, display:'flex', justifyContent:'space-between', alignItems:'center', padding:'16px 32px', borderBottom:'1px solid rgba(180,30,30,0.25)', backdropFilter:'blur(12px)', background:'rgba(8,12,20,0.85)', boxShadow:'0 1px 20px rgba(0,0,0,0.4)' }}>
         <div style={{ display:'flex', alignItems:'center', gap:10 }}>
           <svg width={26} height={26} viewBox="0 0 24 24">
             <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor={C.cyan}/><stop offset="100%" stopColor={C.red}/></linearGradient></defs>
             <path fill="url(#sg)" d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1z"/>
           </svg>
-          <span style={{ fontWeight:800, fontSize:16, letterSpacing:'0.12em' }}>KAVACH<span style={{ color:C.cyan }}>.AI</span></span>
+          <span style={{ fontWeight:800, fontSize:16, letterSpacing:'0.12em', color:C.text }}>KAVACH<span style={{ color:C.red }}>.AI</span></span>
         </div>
         <div style={{ display:'flex', alignItems:'center', gap:20 }}>
           {step !== STEP.IDLE && <button onClick={reset} style={{ background:'none', border:`1px solid ${C.border}`, color:C.muted, padding:'5px 14px', borderRadius:6, cursor:'pointer', fontSize:12 }}>Reset</button>}
-          <div style={{ display:'flex', alignItems:'center', gap:6, fontSize:11, color:C.red, letterSpacing:'0.1em' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:6, fontSize:11, color:C.amber, letterSpacing:'0.12em', fontWeight:600 }}>
             <span style={{ width:6, height:6, borderRadius:'50%', background:C.red, display:'inline-block', animation:'pulse 1.4s ease-in-out infinite', boxShadow:`0 0 8px ${C.red}` }} />
             LIVE SYSTEM
           </div>
           <Link to="/command" style={{ color:C.muted, fontSize:13, textDecoration:'none', fontWeight:500, padding:'6px 14px', border:`1px solid ${C.border}`, borderRadius:6, transition:'all 0.2s' }}
-            onMouseEnter={e=>{ e.currentTarget.style.borderColor=C.cyan; e.currentTarget.style.color=C.cyan; }}
+            onMouseEnter={e=>{ e.currentTarget.style.borderColor=C.amber; e.currentTarget.style.color=C.amber; }}
             onMouseLeave={e=>{ e.currentTarget.style.borderColor=C.border; e.currentTarget.style.color=C.muted; }}>
             Command Center →
           </Link>
@@ -131,45 +128,45 @@ export default function SOSPage() {
           {(step===STEP.IDLE || step===STEP.LISTENING) && (
             <>
               <div style={{ textAlign:'center', marginBottom:40 }}>
-                <div style={{ fontSize:11, fontWeight:700, letterSpacing:'0.2em', marginBottom:16, background:'linear-gradient(90deg,#00c8ff,#a78bfa)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
-                  EMERGENCY DISPATCH SYSTEM
+                <div style={{ fontSize:10, fontWeight:700, letterSpacing:'0.22em', marginBottom:16, color:C.amber }}>
+                  KAVACH EMERGENCY DISPATCH SYSTEM
                 </div>
-                <h1 style={{ fontSize:56, fontWeight:900, lineHeight:1.05, marginBottom:14, background:`linear-gradient(135deg,${C.text} 0%,${C.cyan} 28%,#a78bfa 55%,#ff2d2d 80%,#ff6060 100%)`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
+                <h1 style={{ fontSize:54, fontWeight:900, lineHeight:1.05, marginBottom:14, background:`linear-gradient(135deg,${C.text} 0%,#e8c0a0 40%,${C.red} 75%,#8b0f0f 100%)`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
                   Need Help?
                 </h1>
-                <p style={{ color:'#a06070', fontSize:15, lineHeight:1.65 }}>Speak or type your emergency.<br/>AI triage dispatches help in seconds.</p>
+                <p style={{ color:C.muted, fontSize:15, lineHeight:1.65 }}>Speak your emergency. Our AI triage agent<br/>dispatches help and stays with you.</p>
               </div>
 
               {/* MIC */}
               <div style={{ display:'flex', justifyContent:'center', marginBottom:32 }}>
                 <div style={{ position:'relative' }}>
                   {listening && (<>
-                    <span style={{ position:'absolute', inset:-20, borderRadius:'50%', border:`2px solid ${C.cyan}`, opacity:0.45, animation:'ripple 1.6s ease-out infinite' }} />
-                    <span style={{ position:'absolute', inset:-38, borderRadius:'50%', border:'1px solid #a78bfa', opacity:0.25, animation:'ripple 1.6s ease-out 0.5s infinite' }} />
-                    <span style={{ position:'absolute', inset:-56, borderRadius:'50%', border:'2px solid rgba(220,30,30,0.35)', animation:'ripple 1.6s ease-out 0.9s infinite' }} />
+                    <span style={{ position:'absolute', inset:-18, borderRadius:'50%', border:`2px solid ${C.red}`, opacity:0.6, animation:'ripple 1.6s ease-out infinite' }} />
+                    <span style={{ position:'absolute', inset:-36, borderRadius:'50%', border:`1px solid ${C.red}`, opacity:0.3, animation:'ripple 1.6s ease-out 0.5s infinite' }} />
+                    <span style={{ position:'absolute', inset:-54, borderRadius:'50%', border:`1px solid rgba(196,136,42,0.25)`, animation:'ripple 1.6s ease-out 0.9s infinite' }} />
                   </>)}
                   <button onMouseDown={startMic} onMouseUp={stopMic} onTouchStart={startMic} onTouchEnd={stopMic}
                     style={{ width:120, height:120, borderRadius:'50%',
                       background: listening
-                        ? 'radial-gradient(circle at 35% 35%,rgba(0,200,255,0.35),rgba(100,0,200,0.25),rgba(0,30,80,0.95))'
-                        : 'radial-gradient(circle at 35% 35%,#162840,#0a1628)',
-                      border: `2px solid ${listening ? 'rgba(255,50,50,0.9)' : 'rgba(180,30,60,0.35)'}`,
+                        ? `radial-gradient(circle at 40% 40%,rgba(196,24,24,0.5),rgba(80,10,10,0.95))`
+                        : `radial-gradient(circle at 40% 40%,${C.bg3},${C.bg1})`,
+                      border: `2px solid ${listening ? C.red : 'rgba(150,20,20,0.4)'}`,
                       boxShadow: listening
-                        ? '0 0 30px rgba(255,50,50,0.5),0 0 60px rgba(140,0,80,0.3)'
-                        : '0 0 20px rgba(120,0,40,0.4),0 0 40px rgba(60,0,80,0.15)',
+                        ? `0 0 35px rgba(196,24,24,0.55),0 0 70px rgba(100,10,10,0.3)`
+                        : `0 0 18px rgba(100,10,10,0.35)`,
                       cursor:'pointer', transition:'all 0.25s', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:6 }}>
-                    <svg width={34} height={34} viewBox="0 0 24 24" fill="none" stroke={listening ? '#ff4444' : '#cc2244'} strokeWidth={1.8}>
+                    <svg width={34} height={34} viewBox="0 0 24 24" fill="none" stroke={listening ? '#e84040' : '#9a1818'} strokeWidth={1.8}>
                       <rect x={9} y={2} width={6} height={13} rx={3}/><path d="M5 10a7 7 0 0 0 14 0"/><line x1={12} y1={19} x2={12} y2={22}/><line x1={8} y1={22} x2={16} y2={22}/>
                     </svg>
-                    <span style={{ fontSize:9, letterSpacing:'0.14em', fontWeight:700, color: listening ? '#ff4444' : '#cc2244' }}>{listening ? 'RELEASE' : 'HOLD'}</span>
+                    <span style={{ fontSize:9, letterSpacing:'0.14em', fontWeight:700, color: listening ? '#e84040' : '#9a1818' }}>{listening ? 'RELEASE' : 'HOLD'}</span>
                   </button>
                 </div>
               </div>
 
               {/* INPUT CARD */}
-              <div style={{ background:'linear-gradient(135deg,rgba(10,22,40,0.92),rgba(30,8,14,0.92))', border:'1px solid rgba(200,30,30,0.2)', borderRadius:14, overflow:'hidden', backdropFilter:'blur(12px)', boxShadow:'0 20px 60px rgba(0,0,0,0.5),inset 0 1px 0 rgba(220,30,30,0.1),0 0 0 1px rgba(220,30,30,0.06)' }}>
+              <div style={{ background:'linear-gradient(160deg,rgba(14,21,34,0.97),rgba(26,12,12,0.95))', border:`1px solid ${C.border}`, borderRadius:12, overflow:'hidden', backdropFilter:'blur(14px)', boxShadow:`0 20px 60px rgba(0,0,0,0.6),inset 0 1px 0 rgba(196,24,24,0.12)` }}>
                 <div style={{ padding:'18px 20px 10px' }}>
-                  <label style={{ display:'block', fontSize:10, color:'#ff4444', letterSpacing:'0.14em', marginBottom:10, fontWeight:700 }}>DESCRIBE YOUR EMERGENCY</label>
+                  <label style={{ display:'block', fontSize:10, color:C.amber, letterSpacing:'0.16em', marginBottom:10, fontWeight:700 }}>DESCRIBE YOUR EMERGENCY</label>
                   <textarea value={text} onChange={e=>setText(e.target.value)}
                     onKeyDown={e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); submit(text); } }}
                     placeholder="e.g. Aag lag gayi, Karol Bagh, 5 log faṃse hain…" rows={3}
@@ -192,17 +189,17 @@ export default function SOSPage() {
                 <div style={{ borderTop:`1px solid ${C.border}`, padding:'12px 20px', display:'flex', justifyContent:'space-between', alignItems:'center', gap:10 }}>
                   <button onClick={()=>fileRef.current?.click()}
                     style={{ background:'none', border:`1px solid ${C.border}`, color:C.muted, borderRadius:8, padding:'8px 14px', fontSize:12, cursor:'pointer', transition:'all 0.2s' }}
-                    onMouseEnter={e=>{ e.currentTarget.style.borderColor=C.purple; e.currentTarget.style.color=C.purple; }}
+                    onMouseEnter={e=>{ e.currentTarget.style.borderColor=C.amber; e.currentTarget.style.color=C.amber; }}
                     onMouseLeave={e=>{ e.currentTarget.style.borderColor=C.border; e.currentTarget.style.color=C.muted; }}>
                     {media ? '🖼 Change' : '📎 Attach Photo/Video'}
                   </button>
                   <button onClick={()=>submit(text)} disabled={!hasInput}
-                    style={{ background: hasInput ? 'linear-gradient(135deg,#00c8ff,#6030d0,#cc1010)' : 'rgba(0,200,255,0.05)', color: hasInput ? '#fff' : C.muted, border:'none', borderRadius:8, padding:'10px 26px', fontWeight:800, fontSize:13, letterSpacing:'0.08em', cursor: hasInput ? 'pointer' : 'not-allowed', boxShadow: hasInput ? '0 4px 20px rgba(180,0,60,0.3)' : 'none', transition:'all 0.2s' }}>
+                    style={{ background: hasInput ? `linear-gradient(135deg,${C.red},${C.red2})` : `rgba(100,10,10,0.15)`, color: hasInput ? '#fff' : C.dim, border:'none', borderRadius:8, padding:'10px 28px', fontWeight:800, fontSize:13, letterSpacing:'0.1em', cursor: hasInput ? 'pointer' : 'not-allowed', boxShadow: hasInput ? `0 4px 22px rgba(196,24,24,0.45)` : 'none', transition:'all 0.2s' }}>
                     SUBMIT →
                   </button>
                 </div>
               </div>
-              <p style={{ textAlign:'center', fontSize:11, color:'#7a4050', marginTop:14 }}>📍 Location active &nbsp;·&nbsp; 🔒 Encrypted &nbsp;·&nbsp; 🤖 AI Vision ready</p>
+              <p style={{ textAlign:'center', fontSize:11, color:C.dim, marginTop:14, letterSpacing:'0.04em' }}>📍 Location active &nbsp;·&nbsp; 🔒 Encrypted &nbsp;·&nbsp; 🤖 AI Vision ready</p>
             </>
           )}
 
@@ -210,12 +207,12 @@ export default function SOSPage() {
           {step===STEP.ANALYZING && (
             <div style={{ textAlign:'center', animation:'fadeIn 0.3s ease' }}>
               <div style={{ position:'relative', width:72, height:72, margin:'0 auto 24px' }}>
-                <div style={{ position:'absolute', inset:0, borderRadius:'50%', border:'3px solid transparent', borderTopColor:C.cyan, borderRightColor:'#a78bfa', animation:'spin 0.9s linear infinite' }} />
-                <div style={{ position:'absolute', inset:8, borderRadius:'50%', border:'2px solid transparent', borderBottomColor:'rgba(255,80,130,0.4)', borderLeftColor:'rgba(0,200,255,0.2)', animation:'spin 1.4s linear reverse infinite' }} />
-                <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:10, height:10, borderRadius:'50%', background:'radial-gradient(circle,#fff,#a78bfa)', boxShadow:'0 0 10px #a78bfa' }} />
+                <div style={{ position:'absolute', inset:0, borderRadius:'50%', border:`3px solid transparent`, borderTopColor:C.red, borderRightColor:C.amber, animation:'spin 0.9s linear infinite' }} />
+                <div style={{ position:'absolute', inset:8, borderRadius:'50%', border:'2px solid transparent', borderBottomColor:'rgba(180,30,30,0.3)', borderLeftColor:'rgba(196,136,42,0.2)', animation:'spin 1.4s linear reverse infinite' }} />
+                <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:10, height:10, borderRadius:'50%', background:C.red, boxShadow:`0 0 10px ${C.red}` }} />
               </div>
-              <h2 style={{ fontSize:20, fontWeight:700, marginBottom:8, background:'linear-gradient(90deg,#00c8ff,#a78bfa)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>AI Analyzing…</h2>
-              {media && <p style={{ color:'#c084fc', fontSize:13, marginBottom:6 }}>👁 {media.type==='image' ? 'Vision model processing image' : 'Analyzing video context'}</p>}
+              <h2 style={{ fontSize:20, fontWeight:700, marginBottom:8, color:C.text }}>AI Analyzing…</h2>
+              {media && <p style={{ color:C.amber, fontSize:13, marginBottom:6 }}>👁 {media.type==='image' ? 'Vision model processing image' : 'Analyzing video context'}</p>}
               <p style={{ color:C.muted, fontSize:13 }}>{elapsed}s elapsed</p>
             </div>
           )}
@@ -223,13 +220,13 @@ export default function SOSPage() {
           {/* FOLLOWUP */}
           {step===STEP.FOLLOWUP && (<>
             <TriageCard triage={triage} bar={bar} barCol={barCol} vision={vision} />
-            <div style={{ background:'linear-gradient(135deg,rgba(10,22,40,0.92),rgba(22,10,50,0.88))', border:'1px solid rgba(0,200,255,0.2)', borderRadius:14, padding:20, marginTop:14, backdropFilter:'blur(12px)' }}>
+            <div style={{ background:'linear-gradient(160deg,rgba(14,21,34,0.97),rgba(26,12,12,0.95))', border:`1px solid ${C.border}`, borderRadius:12, padding:20, marginTop:14, backdropFilter:'blur(14px)' }}>
               <div style={{ display:'flex', alignItems:'flex-start', gap:12, marginBottom:14 }}>
-                <div style={{ width:34, height:34, borderRadius:'50%', background:'linear-gradient(135deg,rgba(0,200,255,0.2),rgba(100,0,200,0.3))', border:'1px solid rgba(0,200,255,0.3)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                  <svg width={16} height={16} viewBox="0 0 24 24" fill={C.cyan}><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1z"/></svg>
+                <div style={{ width:34, height:34, borderRadius:'50%', background:`rgba(100,10,10,0.5)`, border:`1px solid rgba(180,30,30,0.4)`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                  <svg width={16} height={16} viewBox="0 0 24 24" fill={C.red}><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1z"/></svg>
                 </div>
                 <div>
-                  <p style={{ fontSize:10, color:C.cyan, marginBottom:4, letterSpacing:'0.1em', fontWeight:700 }}>KAVACH AI</p>
+                  <p style={{ fontSize:10, color:C.amber, marginBottom:4, letterSpacing:'0.12em', fontWeight:700 }}>KAVACH AI</p>
                   <p style={{ fontSize:15, lineHeight:1.55 }}>{triage?.followUpQuestion}</p>
                 </div>
               </div>
@@ -239,7 +236,7 @@ export default function SOSPage() {
                 style={{ width:'100%', background:'transparent', border:'none', outline:'none', color:C.text, fontSize:14, resize:'none', fontFamily:'inherit', borderTop:`1px solid ${C.border}`, paddingTop:12 }} />
               <div style={{ display:'flex', justifyContent:'flex-end', marginTop:10 }}>
                 <button onClick={submitFU} disabled={!followup.trim()}
-                  style={{ background: followup.trim() ? 'linear-gradient(135deg,#00c8ff,#6030d0)' : 'rgba(0,200,255,0.05)', color: followup.trim() ? '#fff' : C.muted, border:'none', borderRadius:8, padding:'10px 22px', fontWeight:800, fontSize:13, cursor: followup.trim() ? 'pointer' : 'not-allowed', boxShadow: followup.trim() ? '0 4px 16px rgba(100,0,255,0.3)' : 'none' }}>
+                  style={{ background: followup.trim() ? `linear-gradient(135deg,${C.red},${C.red2})` : `rgba(100,10,10,0.15)`, color: followup.trim() ? '#fff' : C.dim, border:'none', borderRadius:8, padding:'10px 22px', fontWeight:800, fontSize:13, letterSpacing:'0.08em', cursor: followup.trim() ? 'pointer' : 'not-allowed', boxShadow: followup.trim() ? `0 4px 18px rgba(196,24,24,0.4)` : 'none' }}>
                   SEND →
                 </button>
               </div>
