@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const API = 'http://localhost:3001';
 const STEP = { IDLE:0, LISTENING:1, ANALYZING:2, FOLLOWUP:3, DONE:4 };
@@ -14,7 +14,9 @@ const speak = (t) => { if (!window.speechSynthesis) return; window.speechSynthes
 const toB64 = (f) => new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(f);});
 
 export default function SOSPage() {
+  const navigate = useNavigate();
   const [step,setStep]   = useState(STEP.IDLE);
+  const [incidentId,setIncidentId] = useState(null);
   const [text,setText]   = useState('');
   const [triage,setTriage] = useState(null);
   const [dispatch,setDispatch] = useState(null);
@@ -67,8 +69,13 @@ export default function SOSPage() {
       const d = await r.json(); if (!r.ok) throw new Error(d.error);
       if (d.imageAnalysis) setVision(d.imageAnalysis);
       setTriage(d.triage);
-      if (d.dispatch) { setDispatch(d.dispatch); setStep(STEP.DONE); speak('Aap safe jagah pe rahein. Help pahunch rahi hai.'); }
-      else { setStep(STEP.FOLLOWUP); if(d.triage?.followUpQuestion) speak(d.triage.followUpQuestion); }
+      if (d.dispatch?.incident) {
+        setDispatch(d.dispatch);
+        setIncidentId(d.dispatch.incident.id);
+        setStep(STEP.DONE);
+        speak('Aap safe jagah pe rahein. Help pahunch rahi hai.');
+        setTimeout(() => navigate(`/track/${d.dispatch.incident.id}`), 2200);
+      } else { setStep(STEP.FOLLOWUP); if(d.triage?.followUpQuestion) speak(d.triage.followUpQuestion); }
     } catch(err) { clearInterval(timerRef.current); console.error(err); setStep(STEP.IDLE); }
   }, [media]);
 
