@@ -149,17 +149,17 @@ export default function SOSPage() {
                   <button onMouseDown={startMic} onMouseUp={stopMic} onTouchStart={startMic} onTouchEnd={stopMic}
                     style={{ width:120, height:120, borderRadius:'50%',
                       background: listening
-                        ? `radial-gradient(circle at 40% 40%,rgba(196,24,24,0.5),rgba(80,10,10,0.95))`
-                        : `radial-gradient(circle at 40% 40%,${C.bg3},${C.bg1})`,
-                      border: `2px solid ${listening ? C.red : 'rgba(150,20,20,0.4)'}`,
+                        ? `radial-gradient(circle at 40% 40%,rgba(200,30,30,0.9),rgba(120,0,0,1))`
+                        : `radial-gradient(circle at 40% 40%,${C.red},${C.red2})`,
+                      border: `2px solid ${listening ? '#ff6666' : C.red2}`,
                       boxShadow: listening
-                        ? `0 0 35px rgba(196,24,24,0.55),0 0 70px rgba(100,10,10,0.3)`
-                        : `0 0 18px rgba(100,10,10,0.35)`,
+                        ? `0 0 40px rgba(200,30,30,0.6),0 0 80px rgba(120,0,0,0.4)`
+                        : `0 0 20px rgba(120,0,0,0.4)`,
                       cursor:'pointer', transition:'all 0.25s', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:6 }}>
-                    <svg width={34} height={34} viewBox="0 0 24 24" fill="none" stroke={listening ? '#e84040' : '#9a1818'} strokeWidth={1.8}>
+                    <svg width={34} height={34} viewBox="0 0 24 24" fill="none" stroke={listening ? '#ffffff' : C.text} strokeWidth={1.8}>
                       <rect x={9} y={2} width={6} height={13} rx={3}/><path d="M5 10a7 7 0 0 0 14 0"/><line x1={12} y1={19} x2={12} y2={22}/><line x1={8} y1={22} x2={16} y2={22}/>
                     </svg>
-                    <span style={{ fontSize:9, letterSpacing:'0.14em', fontWeight:700, color: listening ? '#e84040' : '#9a1818' }}>{listening ? 'RELEASE' : 'HOLD'}</span>
+                    <span style={{ fontSize:9, letterSpacing:'0.14em', fontWeight:700, color: listening ? '#ffffff' : C.text }}>{listening ? 'RELEASE' : 'HOLD'}</span>
                   </button>
                 </div>
               </div>
