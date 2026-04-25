@@ -9,9 +9,11 @@ const C = {
   bg:'#020813', bg1:'#061022', bg2:'#0a162e', bg3:'#0f2040',
   border:'rgba(200,20,20,0.3)', red:'#cc0000', red2:'#8b0000',
   text:'#e2e8f0', muted:'#64748b', dim:'#475569',
+  amber:'#c4882a', orange:'#c45010', gold:'#b87c18', green:'#2a7a40', greenBright:'#3ab054',
+  cyan:'#3a82a6' // Subdued blue for some accents
 };
 
-const sevColor = (s) => s==='HIGH'?C.red:s==='MEDIUM'?C.red2:'C.red2';
+const sevColor = (s) => s==='HIGH'?C.red:s==='MEDIUM'?C.orange:C.amber;
 
 export default function CommandCenter() {
   const [state,setState]=useState({
@@ -69,15 +71,15 @@ export default function CommandCenter() {
 
         <div style={{display:'flex',alignItems:'center',gap:8}}>
           <Pill label="HIGH" n={highN} color={C.red}/>
-          <Pill label="MED"  n={medN}  color={C.red}/>
-          <Pill label="LOW"  n={lowN}  color={C.red2}/>
+          <Pill label="MED"  n={medN}  color={C.orange}/>
+          <Pill label="LOW"  n={lowN}  color={C.amber}/>
           <span style={{color:C.muted,fontSize:12,fontFamily:'JetBrains Mono,monospace'}}>{clock}</span>
           <div style={{width:1,height:26,background:C.border,margin:'0 4px'}}/>
           <button onClick={triggerChaos} style={{background:chaos?`linear-gradient(135deg,${C.red},${C.red2})`:`linear-gradient(135deg,rgba(180,30,30,0.15),rgba(100,10,10,0.2))`,color:C.red,border:`1px solid ${C.red}`,padding:'5px 12px',borderRadius:6,fontWeight:700,fontSize:11,cursor:'pointer',letterSpacing:'0.06em',boxShadow:`0 0 14px rgba(196,24,24,0.25)`,transition:'all 0.15s'}}>
             CHAOS MODE
           </button>
-          <div style={{display:'flex',alignItems:'center',gap:4,fontSize:11,color:connected?C.red:C.muted}}>
-            <span style={{width:7,height:7,borderRadius:'50%',background:connected?C.red:C.muted,display:'inline-block',boxShadow:connected?`0 0 6px ${C.red}`:'none'}}/>
+          <div style={{display:'flex',alignItems:'center',gap:4,fontSize:11,color:connected?C.greenBright:C.muted}}>
+            <span style={{width:7,height:7,borderRadius:'50%',background:connected?C.greenBright:C.muted,display:'inline-block',boxShadow:connected?`0 0 6px ${C.greenBright}`:'none'}}/>
             {connected?'LIVE':'...'}
           </div>
         </div>
@@ -123,15 +125,15 @@ export default function CommandCenter() {
           <div style={{...panel,padding:'14px 16px',flexShrink:0}}>
             <div style={{fontSize:10,fontWeight:700,letterSpacing:'0.14em',color:C.red,marginBottom:14}}>AI INSIGHTS</div>
             <Insight color={C.red}    icon="⚠" title="INCIDENT SPIKE"     body={`${state.stats.totalCalls} calls — AI processed all`}/>
-            <Insight color={C.red} icon="🔁" title="DUPLICATES MERGED"  body={`${state.stats.duplicatesMerged} redundant calls filtered`}/>
-            <Insight color={C.red2}   icon="⚡" title="AI vs MANUAL"       body={`AI: ${state.stats.aiResponseTime} · Manual: ${state.stats.manualResponseTime}`}/>
+            <Insight color={C.orange} icon="🔁" title="DUPLICATES MERGED"  body={`${state.stats.duplicatesMerged} redundant calls filtered`}/>
+            <Insight color={C.amber}  icon="⚡" title="AI vs MANUAL"       body={`AI: ${state.stats.aiResponseTime} · Manual: ${state.stats.manualResponseTime}`}/>
           </div>
           {/* Resources */}
           <div style={{...panel,padding:'14px 16px',flexShrink:0}}>
             <div style={{fontSize:10,fontWeight:700,letterSpacing:'0.14em',color:C.red,marginBottom:14}}>RESOURCE STATUS</div>
-            <ResRow emoji="🚑" label="Ambulances" res={state.resources.ambulances} color={C.red}/>
+            <ResRow emoji="🚑" label="Ambulances" res={state.resources.ambulances} color={C.cyan}/>
             <ResRow emoji="🚒" label="Fire Units"  res={state.resources.fireUnits}  color={C.red}/>
-            <ResRow emoji="🚓" label="Police"      res={state.resources.police}     color={C.red}/>
+            <ResRow emoji="🚓" label="Police"      res={state.resources.police}     color={C.orange}/>
           </div>
           {/* Agent Log */}
           <div style={{...panel,flex:1,display:'flex',flexDirection:'column',overflow:'hidden'}}>
@@ -175,7 +177,7 @@ function IncCard({inc,sel,onClick}){
       </div>
       <div style={{fontWeight:600,fontSize:12,marginBottom:4}}>
         {inc.emergencyType.toLowerCase().includes('fire')?'🔥':'🚨'} {inc.emergencyType}
-        {inc.assignedResource&&<span style={{color:C.muted,fontWeight:400}}> → <span style={{color:C.red}}>{inc.assignedResource}</span></span>}
+        {inc.assignedResource&&<span style={{color:C.muted,fontWeight:400}}> → <span style={{color:C.cyan}}>{inc.assignedResource}</span></span>}
       </div>
       <div style={{fontSize:11,color:C.muted,marginBottom:5,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',fontStyle:'italic'}}>"{inc.transcript}"</div>
       <div style={{height:2,background:'rgba(180,30,30,0.1)',borderRadius:1,marginBottom:5}}>
@@ -183,7 +185,7 @@ function IncCard({inc,sel,onClick}){
       </div>
       <div style={{display:'flex',gap:3,flexWrap:'wrap'}}>
         {(inc.keywords||[]).slice(0,3).map(kw=><span key={kw} style={{fontSize:9,color:C.muted,background:C.bg3,padding:'1px 5px',borderRadius:3,border:`1px solid ${C.border}`}}>{kw}</span>)}
-        {inc.callCount>1&&<span style={{fontSize:9,color:C.red,background:'rgba(180,20,20,0.1)',padding:'1px 5px',borderRadius:3}}>×{inc.callCount}</span>}
+        {inc.callCount>1&&<span style={{fontSize:9,color:C.gold,background:'rgba(184,124,24,0.1)',padding:'1px 5px',borderRadius:3}}>×{inc.callCount}</span>}
       </div>
     </div>
   );
@@ -194,14 +196,14 @@ function IncDetail({inc}){
   return(
     <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:11}}>
       <div style={{display:'flex',justifyContent:'space-between',marginBottom:10}}>
-        <span style={{color:C.muted}}>ALERT: <span style={{color:C.red}}>{inc.id?.slice(0,16)}</span></span>
+        <span style={{color:C.muted}}>ALERT: <span style={{color:C.cyan}}>{inc.id?.slice(0,16)}</span></span>
         <span style={{color:col,fontWeight:700}}>{inc.severity} · {(inc.status||'').toUpperCase()}</span>
       </div>
-      <div style={{color:C.red,fontWeight:600,marginBottom:10}}>AI: Dispatch {inc.resourceNeeded} → {inc.locationName}{inc.etaMinutes?` (ETA ${inc.etaMinutes}m)`:''}</div>
+      <div style={{color:C.cyan,fontWeight:600,marginBottom:10}}>AI: Dispatch {inc.resourceNeeded} → {inc.locationName}{inc.etaMinutes?` (ETA ${inc.etaMinutes}m)`:''}</div>
       <div style={{marginBottom:10}}><span style={{color:C.muted}}>TRANSCRIPT: </span><span style={{color:C.text}}>"{inc.transcript}"</span></div>
       <div style={{marginBottom:10}}><span style={{color:C.muted}}>REASONING: </span><span style={{color:C.text,lineHeight:1.6}}>{inc.reasoning}</span></div>
       <div style={{display:'flex',gap:4,flexWrap:'wrap',marginTop:8}}>
-        {(inc.keywords||[]).map(kw=><span key={kw} style={{fontSize:9,color:C.red,background:'rgba(180,30,30,0.1)',border:`1px solid rgba(180,30,30,0.25)`,padding:'2px 6px',borderRadius:3}}>{kw}</span>)}
+        {(inc.keywords||[]).map(kw=><span key={kw} style={{fontSize:9,color:C.cyan,background:'rgba(58,130,166,0.1)',border:`1px solid rgba(58,130,166,0.25)`,padding:'2px 6px',borderRadius:3}}>{kw}</span>)}
       </div>
     </div>
   );
@@ -218,6 +220,6 @@ function ResRow({emoji,label,res,color}){
 }
 
 function LogLine({log}){
-  const col=log.type==='TRIAGE'?C.red:log.type==='DISPATCH'?C.red:log.type==='WARNING'?C.red:C.red;
+  const col=log.type==='TRIAGE'?C.cyan:log.type==='DISPATCH'?C.greenBright:log.type==='WARNING'?C.orange:C.red;
   return(<div style={{marginBottom:5,lineHeight:1.5}}><span style={{color:col}}>[{(log.type||'').padEnd(8)}]</span>{' '}<span style={{color:'#8ab0c8'}}>{log.message}</span></div>);
 }
