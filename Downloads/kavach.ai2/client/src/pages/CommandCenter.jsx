@@ -147,7 +147,7 @@ export default function CommandCenter() {
       </div>
 
       {/* BOTTOM BAR */}
-      <div style={{height:34,backgroundColor:'rgba(10,22,40,0.9)',borderTop:`1px solid ${C.border}`,display:'flex',alignItems:'center',justifyContent:'space-around',fontSize:11,color:C.muted,flexShrink:0,backdropFilter:'blur(8px)'}}>
+      <div style={{height:34,backgroundColor:C.bg1,borderTop:`1px solid ${C.border}`,display:'flex',alignItems:'center',justifyContent:'space-around',fontSize:11,color:C.muted,flexShrink:0}}>
         {[['Total Calls',state.stats.totalCalls],['Duplicates',state.stats.duplicatesMerged],['Active',state.stats.active],['Resolved',state.stats.resolved],['AI',state.stats.aiResponseTime],['Manual',state.stats.manualResponseTime]].map(([l,v])=>(
           <span key={l}>{l}: <strong style={{color:C.text}}>{v}</strong></span>
         ))}

@@ -99,7 +99,7 @@ export default function SOSPage() {
       <input ref={fileRef} type="file" accept="image/*,video/*" style={{ display:'none' }} onChange={onFile} />
 
       {/* ── NAV ── */}
-      <nav style={{ position:'relative', zIndex:10, display:'flex', justifyContent:'space-between', alignItems:'center', padding:'16px 32px', borderBottom:'1px solid rgba(180,30,30,0.25)', backdropFilter:'blur(12px)', background:'rgba(8,12,20,0.85)', boxShadow:'0 1px 20px rgba(0,0,0,0.4)' }}>
+      <nav style={{ position:'relative', zIndex:10, display:'flex', justifyContent:'space-between', alignItems:'center', padding:'16px 32px', borderBottom:`1px solid ${C.border}`, background:C.bg1 }}>
         <div style={{ display:'flex', alignItems:'center', gap:10 }}>
           <svg width={26} height={26} viewBox="0 0 24 24" fill={C.red}>
             <path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1z"/>
@@ -168,14 +168,14 @@ export default function SOSPage() {
                 </div>
 
                 {media && (
-                  <div style={{ margin:'0 20px 14px', position:'relative', borderRadius:8, overflow:'hidden', border:'1px solid rgba(0,200,255,0.2)' }}>
+                  <div style={{ margin:'0 20px 14px', position:'relative', borderRadius:8, overflow:'hidden', border:`1px solid ${C.border}` }}>
                     {media.type==='image'
                       ? <img src={media.url} alt="attachment" style={{ width:'100%', maxHeight:160, objectFit:'cover', display:'block' }} />
                       : <div style={{ background:C.bg3, padding:'12px 16px', display:'flex', alignItems:'center', gap:12 }}>
                           <span style={{ fontSize:24 }}>🎥</span>
                           <div><div style={{ fontSize:13, fontWeight:600 }}>{media.name}</div><div style={{ fontSize:11, color:C.muted, marginTop:2 }}>Video · AI vision active</div></div>
                         </div>}
-                    <div style={{ position:'absolute', top:6, left:6, background:'linear-gradient(135deg,#00c8ff,#a78bfa)', color:'#000', fontSize:9, fontWeight:800, letterSpacing:'0.1em', padding:'2px 8px', borderRadius:4 }}>AI VISION</div>
+                    <div style={{ position:'absolute', top:6, left:6, background:C.bg2, border:`1px solid ${C.red}`, color:C.text, fontSize:9, fontWeight:800, letterSpacing:'0.1em', padding:'2px 8px', borderRadius:4 }}>AI VISION</div>
                     <button onClick={removeMedia} style={{ position:'absolute', top:6, right:6, width:22, height:22, borderRadius:'50%', background:'rgba(0,0,0,0.75)', border:'none', color:'#fff', cursor:'pointer', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center' }}>×</button>
                   </div>
                 )}
@@ -202,7 +202,7 @@ export default function SOSPage() {
             <div style={{ textAlign:'center', animation:'fadeIn 0.3s ease' }}>
               <div style={{ position:'relative', width:72, height:72, margin:'0 auto 24px' }}>
                 <div style={{ position:'absolute', inset:0, borderRadius:'50%', border:`3px solid transparent`, borderTopColor:C.red, borderRightColor:C.red, animation:'spin 0.9s linear infinite' }} />
-                <div style={{ position:'absolute', inset:8, borderRadius:'50%', border:'2px solid transparent', borderBottomColor:'rgba(180,30,30,0.3)', borderLeftColor:'rgba(196,136,42,0.2)', animation:'spin 1.4s linear reverse infinite' }} />
+                <div style={{ position:'absolute', inset:8, borderRadius:'50%', border:'2px solid transparent', borderBottomColor:C.red2, borderLeftColor:C.red, animation:'spin 1.4s linear reverse infinite' }} />
                 <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:10, height:10, borderRadius:'50%', background:C.red, boxShadow:`0 0 10px ${C.red}` }} />
               </div>
               <h2 style={{ fontSize:20, fontWeight:700, marginBottom:8, color:C.text }}>AI Analyzing…</h2>
@@ -214,9 +214,9 @@ export default function SOSPage() {
           {/* FOLLOWUP */}
           {step===STEP.FOLLOWUP && (<>
             <TriageCard triage={triage} bar={bar} barCol={barCol} vision={vision} />
-            <div style={{ background:'linear-gradient(160deg,rgba(14,21,34,0.97),rgba(26,12,12,0.95))', border:`1px solid ${C.border}`, borderRadius:12, padding:20, marginTop:14, backdropFilter:'blur(14px)' }}>
+            <div style={{ background:C.bg1, border:`1px solid ${C.border}`, borderRadius:12, padding:20, marginTop:14 }}>
               <div style={{ display:'flex', alignItems:'flex-start', gap:12, marginBottom:14 }}>
-                <div style={{ width:34, height:34, borderRadius:'50%', background:`rgba(100,10,10,0.5)`, border:`1px solid rgba(180,30,30,0.4)`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                <div style={{ width:34, height:34, borderRadius:'50%', background:C.bg3, border:`1px solid ${C.border}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
                   <svg width={16} height={16} viewBox="0 0 24 24" fill={C.red}><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1z"/></svg>
                 </div>
                 <div>
@@ -230,8 +230,8 @@ export default function SOSPage() {
                 style={{ width:'100%', background:'transparent', border:'none', outline:'none', color:C.text, fontSize:14, resize:'none', fontFamily:'inherit', borderTop:`1px solid ${C.border}`, paddingTop:12 }} />
               <div style={{ display:'flex', justifyContent:'flex-end', marginTop:10 }}>
                 <button onClick={submitFU} disabled={!followup.trim()}
-                  style={{ background: followup.trim() ? `linear-gradient(135deg,${C.red},${C.red2})` : `rgba(100,10,10,0.15)`, color: followup.trim() ? '#fff' : C.dim, border:'none', borderRadius:8, padding:'10px 22px', fontWeight:800, fontSize:13, letterSpacing:'0.08em', cursor: followup.trim() ? 'pointer' : 'not-allowed', boxShadow: followup.trim() ? `0 4px 18px rgba(196,24,24,0.4)` : 'none' }}>
-                  SEND →
+                  style={{ background: followup.trim() ? C.red : C.bg3, color: followup.trim() ? '#fff' : C.dim, border:'none', borderRadius:8, padding:'10px 22px', fontWeight:800, fontSize:13, letterSpacing:'0.08em', cursor: followup.trim() ? 'pointer' : 'not-allowed', transition:'all 0.2s' }}>
+                  SEND
                 </button>
               </div>
             </div>
@@ -240,10 +240,10 @@ export default function SOSPage() {
           {/* DONE */}
           {step===STEP.DONE && (<>
             <TriageCard triage={triage} bar={bar} barCol={barCol} vision={vision} />
-            <div style={{ background:'linear-gradient(135deg,rgba(0,30,15,0.8),rgba(0,50,25,0.6))', border:'1px solid rgba(0,255,136,0.3)', borderRadius:14, padding:28, marginTop:14, textAlign:'center', boxShadow:'0 0 40px rgba(0,255,136,0.1)' }}>
+            <div style={{ background:C.bg2, border:`1px solid ${C.border}`, borderRadius:14, padding:28, marginTop:14, textAlign:'center' }}>
               <div style={{ fontSize:44, marginBottom:10 }}>✅</div>
               <h2 style={{ fontSize:24, fontWeight:800, color:C.red, marginBottom:8 }}>HELP IS ON THE WAY</h2>
-              {dispatch?.incident?.assignedResource && <p style={{ fontSize:15, marginBottom:6 }}><strong style={{ color:C.cyan }}>{dispatch.incident.assignedResource}</strong> dispatched{dispatch.incident.etaMinutes ? ` · ETA ${dispatch.incident.etaMinutes} min` : ''}</p>}
+              {dispatch?.incident?.assignedResource && <p style={{ fontSize:15, marginBottom:6 }}><strong style={{ color:C.text }}>{dispatch.incident.assignedResource}</strong> dispatched{dispatch.incident.etaMinutes ? ` · ETA ${dispatch.incident.etaMinutes} min` : ''}</p>}
               {dispatch?.status==='merged' && <p style={{ fontSize:12, color:C.muted, marginBottom:6 }}>Merged with an existing active incident</p>}
               <p style={{ color:C.muted, fontSize:13, lineHeight:1.65 }}>Stay on the line · KAVACH is with you<br/>Aap safe jagah pe rahein</p>
             </div>
@@ -260,7 +260,7 @@ export default function SOSPage() {
         @keyframes ripple { 0%{transform:scale(1);opacity:0.7} 100%{transform:scale(2.4);opacity:0} }
         @keyframes spin   { to{transform:rotate(360deg)} }
         @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-        textarea::placeholder { color: #2a4a6a; }
+        textarea::placeholder { color: ${C.dim}; }
       `}</style>
     </div>
   );
@@ -268,28 +268,28 @@ export default function SOSPage() {
 
 function TriageCard({ triage, bar, barCol, vision }) {
   if (!triage) return null;
-  const C2 = { HIGH:'#ff2d2d', MEDIUM:'#ff6b2d', LOW:'#ffcc00' };
+  const C2 = { HIGH:C.red, MEDIUM:C.red2, LOW:C.dim };
   return (
-    <div style={{ background:'linear-gradient(135deg,rgba(10,22,40,0.95),rgba(22,10,50,0.9))', border:'1px solid rgba(0,200,255,0.15)', borderRadius:14, padding:20, animation:'fadeIn 0.3s ease', boxShadow:'0 20px 40px rgba(0,0,0,0.4)' }}>
+    <div style={{ background:C.bg2, border:`1px solid ${C.border}`, borderRadius:14, padding:20, animation:'fadeIn 0.3s ease', boxShadow:'0 10px 30px rgba(0,0,0,0.5)' }}>
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:10 }}>
-        <span style={{ fontSize:10, color:'#00c8ff', letterSpacing:'0.14em', fontWeight:700 }}>AI CONFIDENCE</span>
+        <span style={{ fontSize:10, color:C.muted, letterSpacing:'0.14em', fontWeight:700 }}>AI CONFIDENCE</span>
         <span style={{ fontSize:18, fontWeight:800, color:barCol }}>{bar}%</span>
       </div>
-      <div style={{ height:5, background:'rgba(0,200,255,0.08)', borderRadius:3, overflow:'hidden', marginBottom:18 }}>
-        <div style={{ height:'100%', width:`${bar}%`, background:`linear-gradient(90deg,#a78bfa,${barCol})`, borderRadius:3, transition:'width 0.05s linear', boxShadow:`0 0 8px ${barCol}55` }} />
+      <div style={{ height:5, background:C.bg3, borderRadius:3, overflow:'hidden', marginBottom:18 }}>
+        <div style={{ height:'100%', width:`${bar}%`, background:barCol, borderRadius:3, transition:'width 0.05s linear' }} />
       </div>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px 24px' }}>
-        {[['Type',triage.emergencyType,null],['Severity',triage.severity,C2[triage.severity]],['Location',triage.locationName,null],['Resource',triage.resourceNeeded,'#00c8ff']].map(([k,v,c]) => (
+        {[['Type',triage.emergencyType,null],['Severity',triage.severity,C2[triage.severity]],['Location',triage.locationName,null],['Resource',triage.resourceNeeded,C.text]].map(([k,v,c]) => (
           <div key={k}>
-            <div style={{ fontSize:9, color:'#3a4a7a', letterSpacing:'0.1em', marginBottom:3 }}>{k.toUpperCase()}</div>
-            <div style={{ fontSize:14, fontWeight:600, color:c||'#e2f0ff' }}>{v||'—'}</div>
+            <div style={{ fontSize:9, color:C.dim, letterSpacing:'0.1em', marginBottom:3 }}>{k.toUpperCase()}</div>
+            <div style={{ fontSize:14, fontWeight:600, color:c||C.text }}>{v||'—'}</div>
           </div>
         ))}
       </div>
       {vision && (
-        <div style={{ marginTop:14, borderTop:'1px solid rgba(167,139,250,0.15)', paddingTop:14 }}>
-          <div style={{ fontSize:9, color:'#a78bfa', letterSpacing:'0.12em', fontWeight:700, marginBottom:6 }}>AI VISION ANALYSIS</div>
-          <p style={{ fontSize:12, color:'#b0c8e0', lineHeight:1.65, margin:0 }}>{vision}</p>
+        <div style={{ marginTop:14, borderTop:`1px solid ${C.border}`, paddingTop:14 }}>
+          <div style={{ fontSize:9, color:C.muted, letterSpacing:'0.12em', fontWeight:700, marginBottom:6 }}>AI VISION ANALYSIS</div>
+          <p style={{ fontSize:12, color:C.text, lineHeight:1.65, margin:0 }}>{vision}</p>
         </div>
       )}
     </div>
